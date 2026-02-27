@@ -20,7 +20,8 @@ const CONFIG = {
         courseUrls: process.env.COURSE_URLS.split(',')
     },
     checkInterval: parseInt(process.env.CHECK_INTERVAL) || 5,
-    debug: process.env.DEBUG_MODE === 'true' || false
+    debug: process.env.DEBUG_MODE === 'true' || false,
+    chromePath: process.env.CHROME_PATH || null
 };
 const bot = new TelegramBot(CONFIG.telegram.token, {
     polling: true
@@ -108,9 +109,19 @@ class VUMonitor {
             }
         }
 
+        let chromePath;
+        if (CONFIG.chromePath) {
+            chromePath = CONFIG.chromePath;
+        } else {
+            chromePath = this.findChromePath();
+            console.log("couldnt find chrome path in .env, trying to guess...")
+        }
+
+        console.log('chrome path:', chromePath);
+
         this.browser = await puppeteer.launch({
             headless: true,
-            executablePath: '/usr/bin/chromium-browser',
+            executablePath: chromePath,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
