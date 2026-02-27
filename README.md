@@ -78,6 +78,7 @@ pm2 save
 | `CHECK_INTERVAL`         | Check interval in minutes (default: 10) |
 | `DEBUG_MODE`             | Enable debug logging (true/false)       |
 | `CHROME_PATH`            | (Optional) Set Chrome executable path   |
+| `HTTP_PROXY`             | (Optional) Set Proxy for telegram bot   |
 
 ## License
 

@@ -21,11 +21,20 @@ const CONFIG = {
     },
     checkInterval: parseInt(process.env.CHECK_INTERVAL) || 5,
     debug: process.env.DEBUG_MODE === 'true' || false,
-    chromePath: process.env.CHROME_PATH || null
+    chromePath: process.env.CHROME_PATH || null,
+    httpProxy: process.env.HTTP_PROXY || null
 };
+
+if (CONFIG.httpProxy) {
+    console.log("Using Proxy: ", CONFIG.httpProxy)
+}
 const bot = new TelegramBot(CONFIG.telegram.token, {
-    polling: true
+    polling: true,
+    request: {
+        proxy: CONFIG.httpProxy
+    }
 });
+
 let monitor = null;
 const DATA_FILE = 'course_data.json';
 
